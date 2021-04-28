@@ -20,7 +20,7 @@ const EventEmitter = require('events').EventEmitter;
 /*
 const options = {
   url: 'https://dev111335.service-now.com/',
-  username: 'admin',
+  username: 'adminSSS',
   password: 'ohzNMc3RZ8rV',
   serviceNowTable: 'change_request'
 };
@@ -229,23 +229,8 @@ healthcheck(callback) {
             console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
             callbackError = error;
         }
-        //console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`)
-
-        var objData = JSON.parse(`${JSON.stringify(data)}`);
-        var objBody = JSON.parse(objData.body);
-        var objBodyResult = JSON.parse(`${JSON.stringify(objBody.result[0])}`);
-
-        var returnResult = "{\"change_ticket_number\":\"" + objBodyResult.number + "\"," + 
-                            "\"active\":\"" + objBodyResult.active + "\"," + 
-                            "\"priority\":\"" + objBodyResult.priority + "\"," + 
-                            "\"description\":\"" + objBodyResult.description.replace(/(\r\n|\n|\r)/gm, "") + "\"," + 
-                            "\"work_start\":\"" + objBodyResult.work_start + "\"," + 
-                            "\"work_end\":\"" + objBodyResult.work_end + "\"," + 
-                            "\"change_ticket_key\":\"" + objBodyResult.sys_id + "\"}";
-
-        var returnResultObj = JSON.parse(returnResult);
-
-        callbackData = returnResultObj;
+        console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`)
+        callbackData = data;
 
         return callback(callbackData, callbackError);
     });
@@ -269,34 +254,12 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-    let callbackData = null;
-    let callbackError = null;
 
   this.connector.post((data, error) => {
     if (error) {
       console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
-      callbackError = error;
     }
     console.log(`\nResponse returned from POST request:\n${JSON.stringify(data)}`)
-
-        var objData = JSON.parse(`${JSON.stringify(data)}`);
-        var objBody = JSON.parse(objData.body);
-        var objBodyResult = JSON.parse(`${JSON.stringify(objBody.result)}`);
-
-        var returnResult = "{\"change_ticket_number\":\"" + objBodyResult.number + "\"," + 
-                            "\"active\":\"" + objBodyResult.active + "\"," + 
-                            "\"priority\":\"" + objBodyResult.priority + "\"," + 
-                            "\"description\":\"" + objBodyResult.description.replace(/(\r\n|\n|\r)/gm, "") + "\"," + 
-                            "\"work_start\":\"" + objBodyResult.work_start + "\"," + 
-                            "\"work_end\":\"" + objBodyResult.work_end + "\"," + 
-                            "\"change_ticket_key\":\"" + objBodyResult.sys_id + "\"}";
-
-        var returnResultObj = JSON.parse(returnResult);
-
-
-    callbackData = returnResultObj;
-
-    return callback(callbackData, callbackError);
   });
      
   }
@@ -313,68 +276,7 @@ function mainOnObject() {
     const adapter = new ServiceNowAdapter(555, options);
     //adapter.getRecord();
     //adapter.postRecord();
-    //adapter.connect();
-    
-    adapter.getRecord((data, error) => {
-        console.log("*** Inside mainOnObject > adapter.getRecord ***");
-        //console.log(error);
-        console.log(data);
-        
-        //console.log(`${JSON.stringify(result)}`)
-
-        var objData = JSON.parse(`${JSON.stringify(data)}`);
-
-        //console.log(objData.request.uri.hostname);
-        //console.log(objData.body);
-
-        var objBody = JSON.parse(objData.body);
-        //console.log(`${JSON.stringify(objBody.result[0])}`);
-
-
-        var objBodyResult = JSON.parse(`${JSON.stringify(objBody.result[0])}`);
-        //console.log(objBodyResult.number);
-
-        var returnResult = "{\"change_ticket_number\":\"" + objBodyResult.number + "\"," + 
-                            "\"active\":\"" + objBodyResult.active + "\"," + 
-                            "\"priority\":\"" + objBodyResult.priority + "\"," + 
-                            "\"description\":\"" + objBodyResult.description.replace(/(\r\n|\n|\r)/gm, "") + "\"," + 
-                            "\"work_start\":\"" + objBodyResult.work_start + "\"," + 
-                            "\"work_end\":\"" + objBodyResult.work_end + "\"," + 
-                            "\"change_ticket_key\":\"" + objBodyResult.sys_id + "\"}";
-
-        //console.log(returnResult);
-        var returnResultObj = JSON.parse(returnResult);
-        //console.log(returnResultObj);
-
-    });
-    
-
-    adapter.postRecord((data, error) => {
-
-        console.log("*** Inside postRecord ***")
-
-
-        var objData = JSON.parse(`${JSON.stringify(data)}`);
-        var objBody = JSON.parse(objData.body);
-        var objBodyResult = JSON.parse(`${JSON.stringify(objBody.result)}`);
-
-        var returnResult = "{\"change_ticket_number\":\"" + objBodyResult.number + "\"," + 
-                            "\"active\":\"" + objBodyResult.active + "\"," + 
-                            "\"priority\":\"" + objBodyResult.priority + "\"," + 
-                            "\"description\":\"" + objBodyResult.description.replace(/(\r\n|\n|\r)/gm, "") + "\"," + 
-                            "\"work_start\":\"" + objBodyResult.work_start + "\"," + 
-                            "\"work_end\":\"" + objBodyResult.work_end + "\"," + 
-                            "\"change_ticket_key\":\"" + objBodyResult.sys_id + "\"}";
-
-        var returnResultObj = JSON.parse(returnResult);
-
-        console.log(returnResult);
-        console.log(returnResultObj);
-
-        console.log(data)
-    });
-
-
+    adapter.connect();
 }
 
 mainOnObject();
